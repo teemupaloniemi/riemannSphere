@@ -1,0 +1,21 @@
+html {
+    overflow: hidden;
+    background-color: #555555;
+}
+
+body {
+    display: grid;
+    grid-template-areas: "show" "draw";
+}
+
+#show {
+    grid-area: show;
+    border-style: dashed;
+    border-radius: 2px;
+    border-color: #420420;
+}
+
+#draw {
+    margin: 10px;
+    grid-area: draw;
+}
