@@ -18,4 +18,37 @@ body {
 #draw {
     margin: 10px;
     grid-area: draw;
+    display: grid;
+    grid-template-areas: "func1 func2 func3";
+}
+
+#func1 {
+    grid-area: func1;
+}
+
+#func2 {
+    grid-area: func2;
+}
+
+#func3 {
+    grid-area: func3;
+}
+
+#btn1 {
+     background-color: #ff0000;
+}
+
+#btn2 {
+     background-color: #ff8800;
+}
+
+#btn3 {
+     background-color: #ff0088;
+}
+
+
+@media all and (max-width: 700px) {
+    #draw {
+        grid-template-areas: ". func1 ." ". func2 ." ". func3 .";
+    }
 }

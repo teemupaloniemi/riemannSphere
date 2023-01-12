@@ -1,7 +1,7 @@
 import * as THREE from './node_modules/three/build/three.module'
 import { OrbitControls } from './node_modules/three/examples/jsm/controls/OrbitControls'
 
-const incr = 0.02;
+const incr = 0.01;
 const range = 32;
 
 class RiemannSphere {
@@ -78,7 +78,7 @@ class RiemannSphere {
     let path = new THREE.Path();
     path.moveTo(points[0][0], points[0][1]);
     for (let i = 1; i < points.length; i++) {
-      if (points[i][0] <= 0.001 && points[i][0] >= -0.001) {
+      if (points[i][0] <= 0.0001 && points[i][0] >= -0.0001) {
         path = new THREE.Path();
         path.moveTo(points[i + 1][0], points[i + 1][1]);
         continue;
@@ -103,10 +103,17 @@ class RiemannSphere {
 const container = document.getElementById("show");
 container.innerWidth = window.innerWidth - 20;
 container.innerHeight = window.innerHeight - 60;
+if (window.innerWidth <= 700) {
+  container.innerHeight = window.innerHeight - 120;
+}
 
-const butn = document.getElementById("btn");
-const ftext = document.getElementById("fname");
-ftext.value = "1 / x";
+const butn1 = document.getElementById("btn1");
+const ftext1 = document.getElementById("fname1");
+ftext1.value = "1 / x";
+const butn2 = document.getElementById("btn2");
+const ftext2 = document.getElementById("fname2");
+const butn3 = document.getElementById("btn3");
+const ftext3 = document.getElementById("fname3");
 const riemannSphere = new RiemannSphere(container.innerWidth, container.innerHeight, window.devicePixelRatio);
 
 initialize();
@@ -117,18 +124,27 @@ function initialize() {
   window.addEventListener('resize', onWindowResize);
   window.addEventListener('dblclick', clear);
 
-  butn.onclick = function () {
+  butn1.onclick = function () {
     riemannSphere.init();
-    riemannSphere.draw(graph(ftext.value), 0xff0000);
+    riemannSphere.draw(graph(ftext1.value), 0xff0000);
+  }
+  butn2.onclick = function () {
+    riemannSphere.draw(graph(ftext2.value), 0xff8800);
+  }
+  butn3.onclick = function () {
+    riemannSphere.draw(graph(ftext3.value), 0xff0088);
   }
 
-  butn.click();
+  butn1.click();
   container.appendChild(riemannSphere.renderer.domElement);
   animate();
 }
 
 
 function clear() {
+  ftext1.value = "";
+  ftext2.value = "";
+  ftext3.value = "";
   riemannSphere.init();
 }
 
@@ -142,6 +158,9 @@ function animate() {
 function onWindowResize() {
   container.innerWidth = window.innerWidth - 20;
   container.innerHeight = window.innerHeight - 60;
+  if (window.innerWidth <= 700) {
+    container.innerHeight = window.innerHeight - 120;
+  }
   riemannSphere.resize(container.innerWidth, container.innerHeight);
 }
 
