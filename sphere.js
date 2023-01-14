@@ -4,6 +4,10 @@ import { OrbitControls } from './node_modules/three/examples/jsm/controls/OrbitC
 const incr = 0.01;
 const range = 32;
 
+/**
+ * Class for Riemann sphere and its renderer
+ * Usually linked to some container
+ */
 class RiemannSphere {
   constructor(w, h, r) {
     this.width = w;
@@ -17,6 +21,9 @@ class RiemannSphere {
     this.drawaxis();
   }
 
+  /**
+   * empties the scene from any drawn functions 
+   */
   init() {
     this.scene = new THREE.Scene();
     this.ball = new THREE.Mesh(new THREE.SphereGeometry(1), new THREE.MeshBasicMaterial({ color: 0x0000ff, wireframe: true }));
@@ -25,6 +32,11 @@ class RiemannSphere {
     this.update();
   }
 
+  /**
+   * Setting up the positions and visuals of the scene
+   * @param {bool} first is a boolean parameter if the setup is initiated for the first time 
+   * or is it part of clearing/emptying process   
+   */
   setup(first) {
     this.ball.translateZ(1);
     this.ball.rotateX(Math.PI / 2); // poles to canvas
@@ -42,10 +54,19 @@ class RiemannSphere {
     new OrbitControls(this.camera, this.renderer.domElement);
   }
 
+  /**
+   * updating the renderer
+   */
   update() {
     this.renderer.render(this.scene, this.camera);
   }
 
+
+  /**
+   * Resising the renderer to fit some width and height
+   * @param w the width of the new renderer  
+   * @param h the height of the new renderer 
+   */
   resize(w, h) {
     this.width = w;
     this.height = h;
@@ -54,10 +75,19 @@ class RiemannSphere {
     this.renderer.setSize(this.width, this.height);
   }
 
+
+  /**
+   * Adding an object to the scene 
+   * @param {THREE.Mesh} o object to add  
+   */
   addObject(o) {
     this.scene.add(o);
   }
 
+
+  /**
+   * Drawing axis to help visualize the plane under the sphere 
+   */
   drawaxis() {
     let path = new THREE.Path();
     path.moveTo(-range, 0);
@@ -73,6 +103,12 @@ class RiemannSphere {
     this.addObject(new THREE.Line(lineGeometry, lineMaterial));
   }
 
+
+  /**
+   * 
+   * @param  points list of (x,y) points that mark the function 
+   * @param c color of the line in hex notation  
+   */
   draw(points, c) {
     let lineMaterial = new THREE.LineBasicMaterial({ color: c });
     let path = new THREE.Path();
@@ -140,7 +176,9 @@ function initialize() {
   animate();
 }
 
-
+/**
+ * clearing the container from any function and the input fields 
+ */
 function clear() {
   ftext1.value = "";
   ftext2.value = "";
@@ -148,13 +186,18 @@ function clear() {
   riemannSphere.init();
 }
 
-
+/**
+ * "game loop"
+ */
 function animate() {
   requestAnimationFrame(animate);
   riemannSphere.update();
 }
 
 
+/**
+ * resize 
+ */
 function onWindowResize() {
   container.innerWidth = window.innerWidth - 20;
   container.innerHeight = window.innerHeight - 60;
@@ -169,6 +212,11 @@ function onWindowResize() {
 // FUNCTIONS
 
 
+/**
+ * 
+ * @param usrfnc a string containing some mathematical notation  
+ * @returns points along given function
+ */
 function graph(usrfnc) {
   let points = [];
   for (let x = -range; x <= range; x += incr) {
